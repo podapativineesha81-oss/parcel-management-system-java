@@ -1,0 +1,188 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Parcel {
+
+    private int parcelId;
+    private String sender;
+    private String receiver;
+    private String status;
+
+    public Parcel(int parcelId, String sender, String receiver, String status) {
+        this.parcelId = parcelId;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.status = status;
+    }
+
+    public int getParcelId() {
+        return parcelId;
+    }
+
+    public void update(String sender, String receiver, String status) {
+        this.sender = sender;
+        this.receiver = receiver;
+        this.status = status;
+    }
+
+    public void display() {
+        System.out.println("--------------------------------");
+        System.out.println("Parcel ID : " + parcelId);
+        System.out.println("Sender    : " + sender);
+        System.out.println("Receiver  : " + receiver);
+        System.out.println("Status    : " + status);
+    }
+}
+
+public class ParcelManagementSystem {
+
+    static Scanner sc = new Scanner(System.in);
+    static ArrayList<Parcel> parcels = new ArrayList<>();
+    static int nextId = 1;
+
+    public static void main(String[] args) {
+
+        int choice;
+
+        do {
+
+            System.out.println("\n========== PARCEL MANAGEMENT SYSTEM ==========");
+            System.out.println("1. Add Parcel");
+            System.out.println("2. View Parcels");
+            System.out.println("3. Search Parcel");
+            System.out.println("4. Update Parcel");
+            System.out.println("5. Delete Parcel");
+            System.out.println("6. Exit");
+
+            System.out.print("Enter Choice: ");
+            choice = sc.nextInt();
+
+            switch (choice) {
+
+                case 1:
+                    addParcel();
+                    break;
+
+                case 2:
+                    viewParcels();
+                    break;
+
+                case 3:
+                    searchParcel();
+                    break;
+
+                case 4:
+                    updateParcel();
+                    break;
+
+                case 5:
+                    deleteParcel();
+                    break;
+
+                case 6:
+                    System.out.println("Thank You!");
+                    break;
+
+                default:
+                    System.out.println("Invalid Choice!");
+            }
+
+        } while (choice != 6);
+    }
+
+    static void addParcel() {
+
+        sc.nextLine();
+
+        System.out.print("Enter Sender Name: ");
+        String sender = sc.nextLine();
+
+        System.out.print("Enter Receiver Name: ");
+        String receiver = sc.nextLine();
+
+        System.out.print("Enter Parcel Status: ");
+        String status = sc.nextLine();
+
+        parcels.add(new Parcel(nextId++, sender, receiver, status));
+
+        System.out.println("Parcel Added Successfully.");
+    }
+
+    static void viewParcels() {
+
+        if (parcels.isEmpty()) {
+            System.out.println("No Parcels Found.");
+            return;
+        }
+
+        for (Parcel p : parcels)
+            p.display();
+    }
+
+    static void searchParcel() {
+
+        System.out.print("Enter Parcel ID: ");
+        int id = sc.nextInt();
+
+        for (Parcel p : parcels) {
+
+            if (p.getParcelId() == id) {
+                p.display();
+                return;
+            }
+
+        }
+
+        System.out.println("Parcel Not Found.");
+    }
+
+    static void updateParcel() {
+
+        System.out.print("Enter Parcel ID: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        for (Parcel p : parcels) {
+
+            if (p.getParcelId() == id) {
+
+                System.out.print("Enter New Sender Name: ");
+                String sender = sc.nextLine();
+
+                System.out.print("Enter New Receiver Name: ");
+                String receiver = sc.nextLine();
+
+                System.out.print("Enter New Status: ");
+                String status = sc.nextLine();
+
+                p.update(sender, receiver, status);
+
+                System.out.println("Parcel Updated Successfully.");
+                return;
+            }
+
+        }
+
+        System.out.println("Parcel Not Found.");
+    }
+
+    static void deleteParcel() {
+
+        System.out.print("Enter Parcel ID: ");
+        int id = sc.nextInt();
+
+        for (Parcel p : parcels) {
+
+            if (p.getParcelId() == id) {
+
+                parcels.remove(p);
+
+                System.out.println("Parcel Deleted Successfully.");
+                return;
+            }
+
+        }
+
+        System.out.println("Parcel Not Found.");
+    }
+}
